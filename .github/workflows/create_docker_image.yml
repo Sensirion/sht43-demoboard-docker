@@ -13,6 +13,8 @@ on:
   push:
     paths: ['docker_context/*']
 
+  workflow_dispatch:
+    
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -27,6 +29,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Install editor config checker
+        run: pip install editorconfig-checker==2.0.3
+
+      - name: Check files with editor config checker
+        run: editorconfig-checker
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
